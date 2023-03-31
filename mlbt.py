@@ -29,3 +29,6 @@ class MutableLinkedBinaryTree(LinkedBinaryTree):
         
     def attach(self, p, T1, T2):
         return self.attach(p, T1, T2)
+
+
+# add the private

@@ -192,5 +192,52 @@ class LinkedBinaryTree(BinaryTree):
             node._right = t2.root
             t2._root = None
             t2._size = 0
-            
+
+    "Preorder traversal of a tree"
+    def preorder(self):
+        """Generate a preorder iteration of positions in the tree"""
+        if not self.is_empty():
+            for p in self._subtree_preorder(self.root()):
+                yield p
+
+    def _subtree_preorder(self, p):
+        """Generate a preorder iteration of positions in subtree rooted at p"""
+        yield p
+        for c in self.children(p):
+            for other in self._subtree_preorder(c):
+                yield other
+
+    "Postorder traversal of a tree"
+    def postorder(self):
+        """"Generate a postorder iteration of positions in the tree"""
+        if not self.is_empty():
+            for p in self._subtree_postorder(self.root()):
+                yield p
+
+    def _subtree_postorder(self,p):
+        """Generate a postorder iteration of positions in subtree rooted at p"""
+        for c in self.children(p):
+            for other in self._subtree_postorder(c):
+                yield other
+            yield p
+
+    "Inorder travelsal of a tree"
+    def inorder(self):
+        """Generate an inorder iteration of positions in the tree"""
+        if not self.is_empty():
+            for p in self._subtree_inorder(self.root()):
+                yield p
+    def _subtree_inorder(self,p):
+        """Generate an inorder iteration of positions in subtree rooted at p"""
+        if self.left(p) is not None:
+            for other in self._subtree_inorder(self.left(p)):
+                yield other
+        yield p
+        if self.right(p) is not None:
+            for other in self._subtree_inorder(self.right(p)):
+                yield other
+
+
+
+
 
