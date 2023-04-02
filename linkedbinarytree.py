@@ -7,6 +7,7 @@ Created on Tue Mar 28 15:15:46 2023
 
 from binarytree import BinaryTree
 
+
 class LinkedBinaryTree(BinaryTree):
     """Linked representation of a binary tree structure."""
 
@@ -19,7 +20,6 @@ class LinkedBinaryTree(BinaryTree):
             self._left = left
             self._right = right
 
-    
     class Position(BinaryTree.Position):
         """An abstraction representing the location of a single element."""
 
@@ -31,7 +31,6 @@ class LinkedBinaryTree(BinaryTree):
         def element(self):
             return self._node._element
 
-        
         def __eq__(self, other):
             return type(other) is type(self) and other._node is self._node
 
@@ -52,13 +51,11 @@ class LinkedBinaryTree(BinaryTree):
         """Return Position instance for given node (or None if no node)."""
         return self.Position(self, node) if node is not None else None
 
-
     def __init__(self):
         """Create an intially empty binary tree."""
         self._root = None
         self._size = 0
         self._positions = []
-    
 
     def __len__(self):
         """Return the total number of elements in the tree."""
@@ -71,12 +68,11 @@ class LinkedBinaryTree(BinaryTree):
     @property
     def positions(self):
         return self._positions
-    
+
     def parent(self, p):
         """Return the Position of p's parent(or None if p is root)."""
         node = self._validate(p)
         return self._make_position(node._parent)
-
 
     def left(self, p):
         """Return the Position of p's left child(or None if no left child)."""
@@ -104,7 +100,8 @@ class LinkedBinaryTree(BinaryTree):
         Raise ValueError if tree nonempty.
         """
 
-        if self._root is not None: raise ValueError('Root exists')
+        if self._root is not None:
+            raise ValueError('Root exists')
         self._size = 1
         self._root = self._Node(e)
         pos = self._make_position(self._root)
@@ -113,34 +110,35 @@ class LinkedBinaryTree(BinaryTree):
 
     def _add_left(self, p, e):
         """Create a new left child for Position p, storing element e.
-        
+
         Return the Position of new node
         Raise ValueError if Position p is invalidor p already has a left child.
         """
 
         node = self._validate(p)
-        if node._right is not None: raise ValueError('Left child exists')
+        if node._right is not None:
+            raise ValueError('Left child exists')
         self._size += 1
         node._left = self._Node(e, node)
         pos = self._make_position(node._left)
         self._positions.append(pos)
-        return pos 
+        return pos
 
     def _add_right(self, p, e):
         """Create a new right child for Position p, storing element e.
-        
+
         Return the Position of new node
         Raise ValueError if Position p is invalid or p already has a right child.
         """
 
         node = self._validate(p)
-        if node._right is not None: raise ValueError('Right child exists')
+        if node._right is not None:
+            raise ValueError('Right child exists')
         self._size += 1
         node._right = self._Node(e, node)
         pos = self._make_position(node._right)
         self._positions.append(pos)
         return pos
-
 
     def _replace(self, p, e):
         """Replace the element at position p with e, and return old element."""
@@ -157,7 +155,8 @@ class LinkedBinaryTree(BinaryTree):
         """
 
         node = self._validate(p)
-        if self.num_children(p) == 2: raise ValueError('p has two children')
+        if self.num_children(p) == 2:
+            raise ValueError('p has two children')
         child = node._left if node._left else node._right
         if child is not None:
             child._parent = node._parent
@@ -169,7 +168,7 @@ class LinkedBinaryTree(BinaryTree):
                 parent._left = child
             else:
                 parent._right = child
-        
+
         self._positions.remove(p)
         self._size -= 1
         node._parent = node
@@ -178,7 +177,8 @@ class LinkedBinaryTree(BinaryTree):
     def _attach(self, p, t1, t2):
         """Attach trees t1 and t2 as left and right subtrees of external p."""
         node = self._validate(p)
-        if not self.is_leaf(p): raise ValueError('position must be leaf')
+        if not self.is_leaf(p):
+            raise ValueError('position must be leaf')
         if not type(self) is type(t1) is type(t2):
             raise TypeError('Tree types must match')
         self._size += len(t1) + len(t2)
@@ -194,6 +194,7 @@ class LinkedBinaryTree(BinaryTree):
             t2._size = 0
 
     "Preorder traversal of a tree"
+
     def preorder(self):
         """Generate a preorder iteration of positions in the tree"""
         if not self.is_empty():
@@ -223,12 +224,14 @@ class LinkedBinaryTree(BinaryTree):
         yield p
 
     "Inorder travelsal of a tree"
+
     def inorder(self):
         """Generate an inorder iteration of positions in the tree"""
         if not self.is_empty():
             for p in self._subtree_inorder(self.root()):
                 yield p
-    def _subtree_inorder(self,p):
+
+    def _subtree_inorder(self, p):
         """Generate an inorder iteration of positions in subtree rooted at p"""
         if self.left(p) is not None:
             for other in self._subtree_inorder(self.left(p)):
@@ -237,8 +240,3 @@ class LinkedBinaryTree(BinaryTree):
         if self.right(p) is not None:
             for other in self._subtree_inorder(self.right(p)):
                 yield other
-
-
-
-
-
