@@ -30,35 +30,3 @@ class MutableLinkedBinaryTree(LinkedBinaryTree):
 
     def attach(self, p, T1, T2):
         return self._attach(p, T1, T2)
-
-    """Adding a way to visualize the tree"""
-    def __str__(self):
-        """Return a string representation of the tree in ASCII art format."""
-        lines = self._build_lines(self.root())
-        return "\n".join(lines)
-
-    def _build_lines(self, position):
-        """Recursively build a list of lines representing the subtree rooted at position."""
-        if position is None:
-            return []
-        left_lines = self._build_lines(self.left(position))
-        right_lines = self._build_lines(self.right(position))
-        node_width = len(str(position.element()))
-        left_width = len(left_lines[0]) if left_lines else 0
-        right_width = len(right_lines[0]) if right_lines else 0
-        total_width = node_width + left_width + right_width
-        lines = []
-        # Build the first line (node and left/right edges)
-        left_padding = " " * left_width if left_width > 0 else ""
-        right_padding = " " * right_width if right_width > 0 else ""
-        node_line = f"{left_padding}{position.element()}{right_padding}"
-        edge_line = f"{left_padding}{'/' if left_width > 0 else ' '}{right_padding}{'/'if right_width > 0 else ' '}"
-        lines.append(node_line)
-        lines.append(edge_line)
-        # Build the remaining lines (left and right subtrees)
-        for i in range(max(len(left_lines), len(right_lines))):
-            left_line = left_lines[i] if i < len(left_lines) else " " * left_width
-            right_line = right_lines[i] if i < len(right_lines) else " " * right_width
-            line = f"{left_line}{' ' * node_width}{right_line}"
-            lines.append(line)
-        return lines
