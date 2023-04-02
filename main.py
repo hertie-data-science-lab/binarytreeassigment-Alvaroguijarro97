@@ -30,6 +30,7 @@ lbt.add_right(r, 7)
 
 # Test population of tree
 print("Test tree:", "\n")
+print(lbt)
 print("Length of Tree:", len(lbt)) # Expected value: 7
 print("Height of Tree from root:", lbt.height(lbt.root())) # Expected value: 2
 print("Number of children of root:", lbt.num_children(lbt.root())) # Expected value: 2
